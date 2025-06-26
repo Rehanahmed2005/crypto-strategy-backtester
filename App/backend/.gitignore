@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.env
+.env
+.venv/
+
+# Node/React
+node_modules/
+build/
+dist/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Misc
+*.log
+*.md~
