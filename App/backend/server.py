@@ -350,9 +350,16 @@ class BacktestEngine:
         
         # Risk metrics
         returns_array = np.array(returns)
-        volatility_pct = np.std(returns_array) * np.sqrt(252) * 100  # Annualized
-        sharpe_ratio = (np.mean(returns_array) * 252) / (np.std(returns_array) * np.sqrt(252)) if len(returns_array) > 0 else 0
-        
+        std_dev = np.std(returns_array)
+        periods_per_year = 365 * 24  # Hourly data
+
+        volatility_pct = std_dev * np.sqrt(periods_per_year) * 100 if std_dev > 0 else 0
+
+        if std_dev > 0:
+            sharpe_ratio = (np.mean(returns_array) * periods_per_year) / (std_dev * np.sqrt(periods_per_year))
+        else:
+            sharpe_ratio = 0
+
         # Maximum drawdown
         peak = equity_values[0]
         max_drawdown_pct = 0
@@ -479,13 +486,14 @@ async def get_ohlcv_data(symbol: str, limit: int = 1000):
 
 @api_router.post("/strategy")
 async def create_strategy(strategy: StrategyConfig):
-    """Create a new trading strategy"""
     try:
         strategy_dict = strategy.dict()
-        await db.strategies.insert_one(strategy_dict)
-        return strategy
+        insert_result = await db.strategies.insert_one(strategy_dict)
+        strategy_dict["_id"] = str(insert_result.inserted_id)
+        return strategy_dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @api_router.get("/strategies")
 async def get_strategies():

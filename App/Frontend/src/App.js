@@ -220,7 +220,8 @@ const App = () => {
                             <p>Exit: {strategy.exit_indicator} {strategy.exit_operator} {strategy.exit_value}</p>
                           </div>
                           <button
-                            onClick={() => runBacktest(strategy.id)}
+                            onClick={() => runBacktest(strategy.id || strategy._id)
+}
                             disabled={loading}
                             className="mt-3 w-full px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 disabled:opacity-50"
                           >
