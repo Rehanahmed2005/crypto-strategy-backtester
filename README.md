@@ -84,4 +84,4 @@ The goal is simple: **test trading logic before burning your money in live marke
 🙋 Author
 Rehan Ahmed
 Built with discipline, caffeine, and no StackOverflow copy-paste guilt.
-📫 Rehansalmani2005@gmail.com | Rehanahmed4001@gmail,com
+📫 Rehansalmani2005@gmail.com | Rehanahmed4001@gmail.com
